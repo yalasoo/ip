@@ -36,6 +36,16 @@ public class Dino {
         System.out.println(line);
     }
 
+    private static void addTask(Task task) {
+        tasks[curr] = task;
+        curr ++;
+        System.out.println(line);
+        System.out.println("Got it. I've added this task:" +
+                "\n  " + task +
+                "\nNow you have " + curr + " tasks in the list.");
+        System.out.println(line);
+    }
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -62,6 +72,24 @@ public class Dino {
                 String index = input.substring(7);
                 int i = Integer.parseInt(index) - 1;
                 unmarkTask(i);
+            } else if (input.startsWith("todo")) {
+                String description = input.substring(5);
+                Task todo = new Todo(description);
+                addTask(todo);
+            } else if (input.startsWith("deadline")) {
+                String[] detail = input.substring(9).split("/by");
+                String description = detail[0].trim();
+                String date = detail[1].trim();
+                Task deadline = new Deadline(description, date);
+                addTask(deadline);
+            } else if (input.startsWith("event")) {
+                String[] detail = input.substring(6).split("/from");
+                String description = detail[0].trim();
+                String[] duration = detail[1].split("/to");
+                String start = duration[0].trim();
+                String end = duration[1].trim();
+                Task event = new Event(description, start, end);
+                addTask(event);
             } else {
                 tasks[curr] = new Task(input);
                 curr += 1;

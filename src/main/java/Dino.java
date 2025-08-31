@@ -1,9 +1,16 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Dino {
     static final String line = "____________________________________________________________";
     static ArrayList<Task> tasks = new ArrayList<>();
+    private Storage storage;
+
+    public Dino(String filePath) throws IOException {
+        this.storage = new Storage(filePath);
+        this.tasks = storage.loadData();
+    }
 
     private static void printList() {
         System.out.println(line);
@@ -47,8 +54,13 @@ public class Dino {
         System.out.println(line);
     }
 
-    public static void main(String[] args) {
+    public void saveTasks() throws IOException {
+        storage.saveData(tasks);
+    }
 
+    public static void main(String[] args) throws IOException {
+
+        Dino dino = new Dino("data/dino.txt");
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(line);
@@ -136,6 +148,7 @@ public class Dino {
                 } else {
                     throw new DukeException("I'm sorry, but I don't know what that means :-(");
                 }
+                dino.saveTasks();
             } catch (DukeException e) {
                 System.out.println(line);
                 System.out.println("Check again! " + e.getMessage());

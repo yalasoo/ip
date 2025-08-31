@@ -1,0 +1,87 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Storage {
+    private File folder;
+    private File file;
+
+
+    public Storage(String filePath) throws IOException {
+        this.file = new File(filePath);
+        this.folder = file.getParentFile();
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+    }
+
+    public ArrayList<Task> loadData() throws IOException {
+        ArrayList<Task> tasks = new ArrayList<>();
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNext()) {
+            String task = scanner.nextLine();
+            try {
+                String[] parts = task.split(" \\| ");
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+                String description = parts[2];
+                Task temp = null;
+                if (type.equals("T")) {
+                    temp = new Todo(description);
+                } else if (type.equals("D")) {
+                    String deadline = parts[3];
+                    temp = new Deadline(description, deadline);
+                } else if (type.equals("E")) {
+                    String start = parts[3];
+                    String end = parts[4];
+                    temp = new Event(description, start, end);
+                }
+                if (isDone) {
+                    temp.markAsDone();
+                }
+                tasks.add(temp);
+
+            } catch (Exception e) {
+                System.out.println("Error getting data: " + e.getMessage());
+            }
+        }
+        scanner.close();
+        return tasks;
+    }
+
+    public void saveData(ArrayList<Task> tasks) throws IOException {
+        FileWriter fw = new FileWriter(file);
+        for (Task t: tasks) {
+            fw.write(t.toStoreFormat() + System.lineSeparator());
+        }
+        fw.close();
+    }
+
+    public static void main(String[] args) {
+        try {
+            Storage storage = new Storage("data/dino.txt");
+            ArrayList<Task> tasks = storage.loadData();
+            for (Task t : tasks) {
+                System.out.println(t.toStoreFormat());
+            }
+            //test
+            Task newTodo = new Todo("homework");
+            tasks.add(newTodo);
+            Task newDeadline = new Deadline("lecture", "wed");
+            tasks.add(newDeadline);
+            newDeadline.markAsDone();
+            Task newEvent = new Event("tutorial", "4pm", "6pm");
+            tasks.add(newEvent);
+            storage.saveData(tasks);
+            System.out.println("New tasks are saved successfully!");
+        } catch (IOException e) {
+            System.out.println("Error when accessing storage: " + e.getMessage());
+        }
+    }
+
+}

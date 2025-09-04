@@ -1,105 +1,57 @@
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Dino {
-    static final String line = "____________________________________________________________";
-    static ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
     private Storage storage;
+    private Ui ui;
 
     public Dino(String filePath) throws IOException {
+        ui = new Ui();
         this.storage = new Storage(filePath);
         this.tasks = storage.loadData();
-    }
-
-    private static void printList() {
-        System.out.println(line);
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            System.out.println((i + 1) + ". " + task.toString());
-        }
-        System.out.println(line);
-    }
-
-    private static void markTask(int i) {
-        tasks.get(i).markAsDone();
-        System.out.println(line);
-        System.out.println("Nice! I've marked this task as done:\n  " + tasks.get(i).toString());
-        System.out.println(line);
-    }
-
-    private static void unmarkTask(int i) {
-        tasks.get(i).markAsUndone();
-        System.out.println(line);
-        System.out.println("OK, I've marked this task as not done yet:\n  " + tasks.get(i).toString());
-        System.out.println(line);
-    }
-
-    private static void addTask(Task task) {
-        tasks.add(task);
-        System.out.println(line);
-        System.out.println("Got it. I've added this task:" +
-                "\n  " + task +
-                "\nNow you have " + tasks.size() + " tasks in the list.");
-        System.out.println(line);
-    }
-
-    private static void deleteTask(Task task) {
-        tasks.remove(task);
-        System.out.println(line);
-        System.out.println("Noted. I've removed this task:" +
-                "\n  " + task +
-                "\nNow you have " + tasks.size() + " tasks in the list.");
-        System.out.println(line);
     }
 
     public void saveTasks() throws IOException {
         storage.saveData(tasks);
     }
 
-    public static void main(String[] args) throws IOException {
-
-        Dino dino = new Dino("data/dino.txt");
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println(line);
-        System.out.println("Hello! I'm Dino.");
-        System.out.println("What can I do for you?");
-        System.out.println(line);
+    public void run() {
+        ui.showWelcome();
 
         while (true) {
-            String input = scanner.nextLine();
+            String input = ui.readCommand();
 
             try {
                 if (input.equals("bye")) {
-                    System.out.println(line);
-                    System.out.println("Bye. Hope to see you soon!");
-                    System.out.println(line);
+                    ui.showBye();
                     break;
                 } else if (input.equals("list")) {
-                    printList();
+                    ui.showTaskList(tasks);
                 } else if (input.startsWith("mark")) {
                     String index = input.substring(5).trim();
                     int i = Integer.parseInt(index) - 1;
                     if (i < 0 || i >= tasks.size()) {
                         throw new DukeException("The task does not exist.");
                     }
-                    markTask(i);
+                    tasks.get(i).markAsDone();
+                    ui.showTaskMarked(tasks.get(i));
                 } else if (input.startsWith("unmark")) {
                     String index = input.substring(7).trim();
                     int i = Integer.parseInt(index) - 1;
                     if (i < 0 || i >= tasks.size()) {
                         throw new DukeException("The task does not exist.");
                     }
-                    unmarkTask(i);
+                    tasks.get(i).markAsUndone();
+                    ui.showTaskUnmarked(tasks.get(i));
                 } else if (input.startsWith("todo")) {
                     String description = input.substring(5).trim();
                     if (description.isEmpty()) {
                         throw new DukeException("The description of a todo cannot be empty.");
                     }
                     Task todo = new Todo(description);
-                    addTask(todo);
+                    tasks.add(todo);
+                    ui.showTaskAdded(todo, tasks);
                 } else if (input.startsWith("deadline")) {
                     String[] detail = input.substring(9).split("/by");
                     if (detail.length != 2) {
@@ -114,7 +66,8 @@ public class Dino {
                         throw new DukeException("Deadline needs a date!");
                     }
                     Task deadline = new Deadline(description, date);
-                    addTask(deadline);
+                    tasks.add(deadline);
+                    ui.showTaskAdded(deadline, tasks);
                 } else if (input.startsWith("event")) {
                     String[] detail = input.substring(6).split("/from");
                     if (detail.length != 2) {
@@ -137,27 +90,34 @@ public class Dino {
                         throw new DukeException("Event needs an end time!");
                     }
                     Task event = new Event(description, start, end);
-                    addTask(event);
+                    tasks.add(event);
+                    ui.showTaskAdded(event, tasks);
                 } else if (input.startsWith("delete")) {
                     String index = input.substring(7).trim();
                     int i = Integer.parseInt(index) - 1;
                     if (i < 0 || i >= tasks.size()) {
                         throw new DukeException("Choose a valid task.");
                     }
-                    deleteTask(tasks.get(i));
+                    Task deleted = tasks.remove(i);
+                    ui.showTaskDeleted(deleted, tasks);
                 } else {
                     throw new DukeException("I'm sorry, but I don't know what that means :-(");
                 }
-                dino.saveTasks();
+                saveTasks();
             } catch (DukeException e) {
-                System.out.println(line);
-                System.out.println("Check again! " + e.getMessage());
-                System.out.println(line);
-            } catch (Exception e) {
-                System.out.println(line);
-                System.out.println("Error! " + e.getMessage());
-                System.out.println(line);
+                ui.showError("Check again! " + e.getMessage());
+            } catch (IOException e) {
+                ui.showError("Failed to save data:" + e.getMessage());
             }
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            new Dino("data/tasks.txt").run();
+        } catch (IOException e) {
+            Ui ui = new Ui();
+            ui.showError("Failed to load tasks: " + e.getMessage());
         }
     }
 }

@@ -5,22 +5,38 @@ public class Dino {
     private Storage storage;
     private Ui ui;
 
-    public Dino(String filePath) throws IOException {
+    public Dino(String filePath) {
         ui = new Ui();
-        this.storage = new Storage(filePath);
-        this.tasks = new TaskList(storage.loadData());
+        try {
+            this.storage = new Storage(filePath);
+            this.tasks = new TaskList(storage.loadData());
+        } catch (IOException e) {
+            ui.showError("Failed to load data" + e.getMessage());
+            tasks = new TaskList();
+        }
     }
 
-    public void saveTasks() throws IOException {
-        storage.saveData(tasks.getAllTasks());
+    public void saveTasks() {
+        try {
+            storage.saveData(tasks.getAllTasks());
+        } catch (IOException e) {
+            ui.showError("Failed to save data" + e.getMessage());
+        }
     }
 
-    public void run() throws DukeException {
+    public void run() {
         ui.showWelcome();
 
         while (true) {
             String input = ui.readCommand();
-            String[] parsedCommand = Parser.parse(input);
+            String[] parsedCommand;
+            try {
+                parsedCommand = Parser.parse(input);
+            } catch (DukeException e) {
+                ui.showError("Error reading command" + e.getMessage());
+                continue;
+            }
+
             int len = parsedCommand.length;
             String commandType = parsedCommand[0];
             String commandDetail = len > 1 ? parsedCommand[1] : null;
@@ -80,21 +96,13 @@ public class Dino {
                     }
                 }
                 saveTasks();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 ui.showError("Failed to save data:" + e.getMessage());
             }
         }
     }
 
     public static void main(String[] args) {
-        try {
             new Dino("data/tasks.txt").run();
-        } catch (DukeException e) {
-            Ui ui = new Ui();
-            ui.showError("Check again!" + e.getMessage());
-        } catch (IOException e) {
-            Ui ui = new Ui();
-            ui.showError("Failed to load tasks: " + e.getMessage());
-        }
     }
 }

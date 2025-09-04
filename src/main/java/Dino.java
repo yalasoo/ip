@@ -1,19 +1,18 @@
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Dino {
-    private ArrayList<Task> tasks = new ArrayList<>();
+    private TaskList tasks;
     private Storage storage;
     private Ui ui;
 
     public Dino(String filePath) throws IOException {
         ui = new Ui();
         this.storage = new Storage(filePath);
-        this.tasks = storage.loadData();
+        this.tasks = new TaskList(storage.loadData());
     }
 
     public void saveTasks() throws IOException {
-        storage.saveData(tasks);
+        storage.saveData(tasks.getAllTasks());
     }
 
     public void run() throws DukeException {
@@ -35,7 +34,7 @@ public class Dino {
                         return;
 
                     case "list":
-                        ui.showTaskList(tasks);
+                        ui.showTaskList(tasks.getAllTasks());
                         break;
 
                     case "mark": {
@@ -54,29 +53,29 @@ public class Dino {
 
                     case "todo": {
                         Task todo = new Todo(commandDetail);
-                        tasks.add(todo);
-                        ui.showTaskAdded(todo, tasks);
+                        tasks.addTask(todo);
+                        ui.showTaskAdded(todo, tasks.getAllTasks());
                         break;
                     }
 
                     case "deadline": {
                         Task deadline = new Deadline(commandDetail, extraDetail);
-                        tasks.add(deadline);
-                        ui.showTaskAdded(deadline, tasks);
+                        tasks.addTask(deadline);
+                        ui.showTaskAdded(deadline, tasks.getAllTasks());
                         break;
                     }
 
                     case "event": {
                         Task event = new Event(commandDetail, extraDetail, finalExtraDetail);
-                        tasks.add(event);
-                        ui.showTaskAdded(event, tasks);
+                        tasks.addTask(event);
+                        ui.showTaskAdded(event, tasks.getAllTasks());
                         break;
                     }
 
                     case "delete": {
                         int index = Integer.parseInt(commandDetail) - 1;
-                        Task deleted = tasks.remove(index);
-                        ui.showTaskDeleted(deleted, tasks);
+                        Task deleted = tasks.removeTask(index);
+                        ui.showTaskDeleted(deleted, tasks.getAllTasks());
                         break;
                     }
                 }

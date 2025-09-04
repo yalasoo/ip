@@ -1,6 +1,7 @@
 package dino;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Dino {
     private TaskList tasks;
@@ -13,7 +14,7 @@ public class Dino {
             this.storage = new Storage(filePath);
             this.tasks = new TaskList(storage.loadData());
         } catch (IOException e) {
-            ui.showError("Failed to load data" + e.getMessage());
+            ui.showError("Failed to load data");
             tasks = new TaskList();
         }
     }
@@ -22,7 +23,7 @@ public class Dino {
         try {
             storage.saveData(tasks.getAllTasks());
         } catch (IOException e) {
-            ui.showError("Failed to save data" + e.getMessage());
+            ui.showError("Failed to save data.");
         }
     }
 
@@ -35,7 +36,7 @@ public class Dino {
             try {
                 parsedCommand = Parser.parse(input);
             } catch (DukeException e) {
-                ui.showError("Error reading command" + e.getMessage());
+                ui.showError("Failed to load data.");
                 continue;
             }
 
@@ -96,10 +97,16 @@ public class Dino {
                         ui.showTaskDeleted(deleted, tasks.getAllTasks());
                         break;
                     }
+
+                    case "find": {
+                        ArrayList<Task> searchResults = tasks.findTasks(commandDetail);
+                        ui.showFoundResults(searchResults);
+                        break;
+                    }
                 }
                 saveTasks();
             } catch (Exception e) {
-                ui.showError("Failed to save data:" + e.getMessage());
+                ui.showError("Failed to save data.");
             }
         }
     }

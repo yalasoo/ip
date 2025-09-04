@@ -1,5 +1,6 @@
 package dino;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -35,5 +36,20 @@ public class TaskList {
 
     public ArrayList<Task> getAllTasks() {
         return tasks;
+    }
+
+    /** Returns a list of tasks containing the required keyword.
+     *
+     * @param keyword the word to be searched
+     * @return task list with all tasks containing the keyword
+     */
+    public ArrayList<Task> findTasks(String keyword) {
+        ArrayList<Task> searchResults = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.toString().contains(keyword)) {
+                searchResults.add(task);
+            }
+        }
+        return searchResults;
     }
 }

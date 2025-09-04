@@ -1,6 +1,15 @@
 package dino;
 
+/**
+ * Parses the user input command into structured components to be processed by the application.
+ */
 public class Parser {
+
+    /** Parses different user command string into its corresponding format of array of components.
+     *
+     * @return an array of strings containing the command type and details
+     * @throws DukeException if the command is invalid or missing required information
+     */
     public static String[] parse(String command) throws DukeException {
         String[] parts = command.trim().split(" ", 2);
         String commandType = parts[0];

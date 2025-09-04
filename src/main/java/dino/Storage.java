@@ -6,11 +6,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Stores the task list data.
+ * Allows reading and writing the data file.
+ */
 public class Storage {
     private File folder;
     private File file;
 
-
+    /**
+     * Constructs a Storage object and ensures that the path exist.
+     *
+     * @param filePath path to the file where tasks will be stored
+     * @throws IOException if the file cannot be created
+     */
     public Storage(String filePath) throws IOException {
         this.file = new File(filePath);
         this.folder = file.getParentFile();
@@ -22,6 +31,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads tasks from the storage file.
+     *
+     * @return an ArrayList of Task object from the file
+     * @throws IOException if the file cannot be read
+     */
     public ArrayList<Task> loadData() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner scanner = new Scanner(file);
@@ -56,6 +71,12 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the given list of tasks to the storage file.
+     *
+     * @param tasks ArrayList of tasks to save
+     * @throws IOException if the file cannot be edited
+     */
     public void saveData(ArrayList<Task> tasks) throws IOException {
         FileWriter fw = new FileWriter(file);
         for (Task t: tasks) {

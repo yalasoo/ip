@@ -2,11 +2,17 @@ package dino;
 
 import java.io.IOException;
 
+/** The main class of the Dino application */
 public class Dino {
     private TaskList tasks;
     private Storage storage;
     private Ui ui;
 
+    /**
+     * Constructs a Dino application instance with the storage file.
+     *
+     * @param filePath path to the storage file
+     */
     public Dino(String filePath) {
         ui = new Ui();
         try {
@@ -18,6 +24,7 @@ public class Dino {
         }
     }
 
+    /** Saves the current list of tasks to the storage file. */
     public void saveTasks() {
         try {
             storage.saveData(tasks.getAllTasks());
@@ -26,6 +33,7 @@ public class Dino {
         }
     }
 
+    /** Starts the Dino application. */
     public void run() {
         ui.showWelcome();
 

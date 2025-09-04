@@ -64,7 +64,7 @@ public class Storage {
                 tasks.add(temp);
 
             } catch (Exception e) {
-                System.out.println("Error getting data: " + e.getMessage());
+                System.out.println("Error getting data.");
             }
         }
         scanner.close();
@@ -103,7 +103,7 @@ public class Storage {
             storage.saveData(tasks);
             System.out.println("New tasks are saved successfully!");
         } catch (IOException e) {
-            System.out.println("Error when accessing storage: " + e.getMessage());
+            System.out.println("Error when accessing storage.");
         }
     }
 

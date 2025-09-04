@@ -1,3 +1,5 @@
+package dino;
+
 public class Parser {
     public static String[] parse(String command) throws DukeException {
         String[] parts = command.trim().split(" ", 2);
@@ -33,7 +35,7 @@ public class Parser {
                 }
                 String date = taskDetail[1].trim();
                 if (date.isEmpty()) {
-                    throw new DukeException("Deadline needs a date!");
+                    throw new DukeException("dino.Deadline needs a date!");
                 }
                 return new String[]{commandType, description, date};
             }
@@ -52,11 +54,11 @@ public class Parser {
                 }
                 String start = duration[0].trim();
                 if (start.isEmpty()) {
-                    throw new DukeException("Event needs a start time!");
+                    throw new DukeException("dino.Event needs a start time!");
                 }
                 String end = duration[1].trim();
                 if (end.isEmpty()) {
-                    throw new DukeException("Event needs an end time!");
+                    throw new DukeException("dino.Event needs an end time!");
                 }
                 return new String[]{commandType, description, start, end};
             }

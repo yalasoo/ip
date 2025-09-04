@@ -1,3 +1,5 @@
+package dino;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,7 +13,7 @@ public class Ui {
 
     public void showWelcome() {
         System.out.println(line);
-        System.out.println("Hello! I'm Dino.");
+        System.out.println("Hello! I'm dino.Dino.");
         System.out.println("What can I do for you?");
         System.out.println(line);
     }

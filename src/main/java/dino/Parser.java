@@ -17,7 +17,9 @@ public class Parser {
 
         switch (commandType) {
             case "bye":
+                return new String[]{"bye"};
             case "list":
+                return new String[]{"list"};
             case "mark": {
                 if (commandDetail.isEmpty()) {
                     throw new DukeException("Choose a valid task number to mark a task.");
@@ -37,6 +39,12 @@ public class Parser {
                 return new String[]{commandType, commandDetail};
             }
             case "deadline": {
+                if (commandDetail.isEmpty()) {
+                    throw new DukeException("The details of a deadline cannot be empty.");
+                }
+                if (!commandDetail.contains("/by")) {
+                    throw new DukeException("Please use the correct deadline format.");
+                }
                 String[] taskDetail = commandDetail.split("/by");
                 String description = taskDetail[0].trim();
                 if (description.isEmpty()) {
@@ -49,6 +57,12 @@ public class Parser {
                 return new String[]{commandType, description, date};
             }
             case "event": {
+                if (commandDetail.isEmpty()) {
+                    throw new DukeException("The details of a event cannot be empty.");
+                }
+                if (!commandDetail.contains("/from") || !commandDetail.contains("/to")) {
+                    throw new DukeException("Please use the correct format to record down event.");
+                }
                 String[] taskDetail = commandDetail.split("/from");
                 if (taskDetail.length != 2) {
                     throw new DukeException("Missing description or time!");

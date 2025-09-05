@@ -23,7 +23,7 @@ public class Storage {
     public Storage(String filePath) throws IOException {
         this.file = new File(filePath);
         this.folder = file.getParentFile();
-        if (!folder.exists()) {
+        if (folder != null && !folder.exists()) {
             folder.mkdirs();
         }
         if (!file.exists()) {

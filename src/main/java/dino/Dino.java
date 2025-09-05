@@ -14,14 +14,13 @@ public class Dino {
      *
      * @param filePath path to the storage file
      */
-    public Dino(String filePath) {
+    public Dino(String filePath) throws IOException {
         ui = new Ui();
+        this.storage = new Storage(filePath);
         try {
-            this.storage = new Storage(filePath);
             this.tasks = new TaskList(storage.loadData());
         } catch (IOException e) {
-            ui.showError("Failed to load data");
-            tasks = new TaskList();
+            this.tasks = new TaskList(new ArrayList<>());
         }
     }
 
@@ -44,7 +43,7 @@ public class Dino {
             try {
                 parsedCommand = Parser.parse(input);
             } catch (DukeException e) {
-                ui.showError("Failed to load data.");
+                ui.showError(e.getMessage());
                 continue;
             }
 
@@ -119,7 +118,7 @@ public class Dino {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
             new Dino("data/tasks.txt").run();
     }
 }

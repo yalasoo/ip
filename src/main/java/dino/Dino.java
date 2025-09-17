@@ -75,6 +75,12 @@ public class Dino {
         }
     }
 
+    public String showWelcome() {
+        String line = "______________________________________";
+        return line + "\nHello! I'm Dino.\n"
+                + "What can I do for you?\n" + line;
+    }
+
     private String executeCommand(String[] commands) {
         int len = commands.length;
         String commandType = commands[0];

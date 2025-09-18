@@ -10,33 +10,33 @@ public class Parser {
      * @return an array of strings containing the command type and details
      * @throws DukeException if the command is invalid or missing required information
      */
-    public static String[] parse(String command) throws DukeException {
+    public static Command parse(String command) throws DukeException {
         String[] parts = command.trim().split(" ", 2);
         String commandType = parts[0];
         String commandDetail = parts.length > 1 ? parts[1] : "";
 
         switch (commandType) {
             case "bye":
-                return new String[]{"bye"};
+                return new ByeCommand();
             case "list":
-                return new String[]{"list"};
+                return new ListCommand();
             case "mark": {
                 if (commandDetail.isEmpty()) {
                     throw new DukeException("Choose a valid task number to mark a task.");
                 }
-                return new String[] {commandType, commandDetail};
+                return new MarkCommand(Integer.parseInt(commandDetail));
             }
             case "unmark": {
                 if (commandDetail.isEmpty()) {
                     throw new DukeException("Choose a valid task number to unmark a task.");
                 }
-                return new String[] {commandType, commandDetail};
+                return new UnmarkCommand(Integer.parseInt(commandDetail));
             }
             case "todo": {
                 if (commandDetail.isEmpty()) {
                     throw new DukeException("The description of a todo cannot be empty.");
                 }
-                return new String[]{commandType, commandDetail};
+                return new ToDoCommand(new Todo(commandDetail));
             }
             case "deadline": {
                 if (commandDetail.isEmpty()) {
@@ -54,7 +54,7 @@ public class Parser {
                 if (date.isEmpty()) {
                     throw new DukeException("Deadline needs a date!");
                 }
-                return new String[]{commandType, description, date};
+                return new ToDoCommand(new Deadline(description, date));
             }
             case "event": {
                 if (commandDetail.isEmpty()) {
@@ -83,16 +83,16 @@ public class Parser {
                 if (end.isEmpty()) {
                     throw new DukeException("Event needs an end time!");
                 }
-                return new String[]{commandType, description, start, end};
+                return new ToDoCommand(new Event(description, start, end));
             }
             case "delete": {
-                return new String[]{commandType, commandDetail};
+                return new DeleteCommand(Integer.parseInt(commandDetail));
             }
             case "find": {
                 if (commandDetail.isEmpty()) {
                     throw new DukeException("Please provide a valid keyword.");
                 }
-                return new String[]{commandType, commandDetail};
+                return new FindCommand(commandDetail);
             }
             default: throw new DukeException("I'm sorry, but I don't know what that means :-(");
         }

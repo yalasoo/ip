@@ -27,11 +27,19 @@ public class Ui {
         System.out.println(line);
     }
 
+    public String getWelcomeMessage() {
+        return line + "\nHello! I'm Dino.\nWhat can I do for you?\n" + line;
+    }
+
     /** Displays the goodbye message to the user. */
     public void showBye() {
         System.out.println(line);
         System.out.println("Bye. Hope to see you soon!");
         System.out.println(line);
+    }
+
+    public String getByeMessage() {
+        return line + "\nBye. Hope to see you soon!\n" + line;
     }
 
     /**
@@ -58,6 +66,16 @@ public class Ui {
         System.out.println(line);
     }
 
+    public String getTaskList(List<Task> tasks) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(line).append("\nHere are the tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
+        }
+        sb.append(line);
+        return sb.toString();
+    }
+
     /**
      * Displays a message that a task has been marked as done.
      *
@@ -69,6 +87,10 @@ public class Ui {
         System.out.println(line);
     }
 
+    public String getTaskMarked(Task task) {
+        return line + "\nNice! I've marked this task as done:\n  " + task + "\n" + line;
+    }
+
     /**
      * Displays a message that a task has been marked as undone.
      *
@@ -78,6 +100,10 @@ public class Ui {
         System.out.println(line);
         System.out.println("OK, I've marked this task as not done yet:\n  " + task.toString());
         System.out.println(line);
+    }
+
+    public String getTaskUnmarked(Task task) {
+        return line + "\nOK, I've marked this task as not done yet:\n  " + task + "\n" + line;
     }
 
     /**
@@ -94,6 +120,11 @@ public class Ui {
         System.out.println(line);
     }
 
+    public String getTaskAdded(Task task, List<Task> tasks) {
+        return line + "\nGot it. I've added this task:\n  " + task +
+                "\nNow you have " + tasks.size() + " tasks in the list.\n" + line;
+    }
+
     /**
      * Displays a message that a new task has been deleted.
      *
@@ -108,6 +139,11 @@ public class Ui {
         System.out.println(line);
     }
 
+    public String getTaskDeleted(Task task, List<Task> tasks) {
+        return line + "\nNoted. I've removed this task:\n  " + task +
+                "\nNow you have " + tasks.size() + " tasks in the list.\n" + line;
+    }
+
     /**
      * Displays a message showing the error.
      *
@@ -117,6 +153,10 @@ public class Ui {
         System.out.println(line);
         System.out.println("Error! " + message);
         System.out.println(line);
+    }
+
+    public String getError(String message) {
+        return line + "\nError! " + message + "\n" + line;
     }
 
     /** Displays the result of searching the given keyword.
@@ -133,5 +173,20 @@ public class Ui {
             System.out.println((i + 1) + "." + tasks.get(i).toString());
         }
         System.out.println(line);
+    }
+
+    public String getFoundResults(ArrayList<Task> tasks) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(line).append("\n");
+        if (tasks.isEmpty()) {
+            sb.append("No matching tasks found\n");
+        } else {
+            sb.append("Here are the matching tasks in your list:\n");
+            for (int i = 0; i < tasks.size(); i++) {
+                sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
+            }
+        }
+        sb.append(line);
+        return sb.toString();
     }
 }

@@ -26,6 +26,7 @@ public class TaskList {
      * @throws ArrayIndexOutOfBoundsException if the task index is invalid
      */
     public Task removeTask(int index) {
+        index -= 1;
         if (index < 0 || index >= tasks.size()) {
             throw new ArrayIndexOutOfBoundsException("Invalid task index.");
         }
@@ -45,6 +46,7 @@ public class TaskList {
      * @throws ArrayIndexOutOfBoundsException if the given index is invalid
      */
     public Task get(int index) {
+        index -= 1;
         if (index < 0 || index >= tasks.size()) {
             throw new ArrayIndexOutOfBoundsException("Invalid task index.");
         }
@@ -73,5 +75,9 @@ public class TaskList {
             }
         }
         return searchResults;
+    }
+
+    public ArrayList<Task> getTaskListAsArray () {
+        return this.tasks;
     }
 }

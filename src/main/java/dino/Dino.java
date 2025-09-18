@@ -30,37 +30,25 @@ public class Dino {
         this(DEFAULT_FILE_PATH);
     }
 
-    /** Saves the current list of tasks to the storage file. */
-    public void saveTasks() {
-        try {
-            storage.saveData(tasks.getAllTasks());
-        } catch (IOException e) {
-            ui.showError("Failed to save data.");
-        }
-    }
-
     /** Starts the Dino application. */
     public void run() {
         ui.showWelcome();
-
-        while (true) {
+        boolean isExit = false;
+        while (!isExit) {
             String input = ui.readCommand();
-            String[] parsedCommand;
             try {
-                parsedCommand = Parser.parse(input);
+                Command command = Parser.parse(input);
+                command.executeCommand(tasks, ui, storage);
+                isExit = command.isExit();
             } catch (DukeException e) {
                 ui.showError(e.getMessage());
-                continue;
-            }
-            String response = executeCommand(parsedCommand);
-            if (parsedCommand[0].equals("bye")) {
-                break;
             }
         }
+        ui.showBye();
     }
 
     public static void main(String[] args) throws IOException {
-            new Dino("data/tasks.txt").run();
+            new Dino(DEFAULT_FILE_PATH).run();
     }
 
     /**
@@ -68,8 +56,7 @@ public class Dino {
      */
     public String getResponse(String input) {
         try {
-            String[] parsedCommand = Parser.parse(input);
-            return executeCommand(parsedCommand);
+            return Parser.parse(input).executeCommand(tasks, ui, storage);
         } catch (DukeException e ) {
             return ("Error executing command");
         }
@@ -79,92 +66,5 @@ public class Dino {
         String line = "______________________________________";
         return line + "\nHello! I'm Dino.\n"
                 + "What can I do for you?\n" + line;
-    }
-
-    private String executeCommand(String[] commands) {
-        int len = commands.length;
-        String commandType = commands[0];
-        String commandDetail = len > 1 ? commands[1] : null;
-        String extraDetail = len > 2 ? commands[2] : null;
-        String finalExtraDetail = len > 3 ? commands[3] : null;
-        String line = "______________________________________";
-
-        try {
-            switch (commandType) {
-            case "bye":
-                return line + "\nBye. Hope to see you soon!\n" + line;
-
-            case "list": {
-                String output = line + "\nHere are the tasks in your list:\n";
-                for (int i = 0; i < tasks.getAllTasks().size(); i++) {
-                    output += (i + 1) + ". " + tasks.getAllTasks().get(i) + "\n";
-                }
-                output += line;
-                return output;
-            }
-
-            case "mark": {
-                int index = Integer.parseInt(commandDetail) - 1;
-                tasks.get(index).markAsDone();
-                saveTasks();
-                return line + "\nNice! I've marked this task as done:\n" + tasks.get(index) + "\n" + line;
-            }
-
-            case "unmark": {
-                int index = Integer.parseInt(commandDetail) - 1;
-                tasks.get(index).markAsUndone();
-                saveTasks();
-                return line + "\nOK, I've marked this task as not done yet:\n  " + tasks.get(index).toString() + "\n" + line;
-            }
-
-            case "todo": {
-                Task todo = new Todo(commandDetail);
-                tasks.addTask(todo);
-                saveTasks();
-                return line + "\nGot it. I've added this task:\n" + todo +
-                        "\nNow you have " + tasks.getAllTasks().size() + " tasks in the list." + "\n" + line;
-            }
-
-            case "deadline": {
-                Task deadline = new Deadline(commandDetail, extraDetail);
-                tasks.addTask(deadline);
-                saveTasks();
-                return line + "\nGot it. I've added this task:\n" + deadline +
-                        "\nNow you have " + tasks.getAllTasks().size() + " tasks in the list." + "\n" + line;
-            }
-
-            case "event": {
-                Task event = new Event(commandDetail, extraDetail, finalExtraDetail);
-                tasks.addTask(event);
-                saveTasks();
-                return line + "\nGot it. I've added this task:\n" + event +
-                        "\nNow you have " + tasks.getAllTasks().size() + " tasks in the list." + "\n" + line;
-            }
-
-            case "delete": {
-                int index = Integer.parseInt(commandDetail) - 1;
-                Task deleted = tasks.removeTask(index);
-                saveTasks();
-                return line + "\nNoted. I've removed this task:\n" + deleted +
-                        "\nNow you have " + tasks.getAllTasks().size() + " tasks in the list." + "\n" + line;
-            }
-
-            case "find": {
-                ArrayList<Task> searchResults = tasks.findTasks(commandDetail);
-                if (searchResults.isEmpty()) {
-                    return line + "\nNo matching tasks found\n" + "\n" + line;
-                }
-                String output = line + "\nHere are the matching tasks in your list:\n";
-                for (int i = 0; i < searchResults.size(); i++) {
-                    output += (i + 1) + ". " + searchResults.get(i) + "\n";
-                }
-                output += line;
-                return output;
-            }
-            }
-        } catch (Exception e) {
-            return line + "\nFailed to save data.\n" + line;
-        }
-        return line + "\nI'm sorry, but I don't know what that means :-(\n" + line;
     }
 }

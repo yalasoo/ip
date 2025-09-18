@@ -58,7 +58,7 @@ public class Dino {
         try {
             return Parser.parse(input).executeCommand(tasks, ui, storage);
         } catch (DukeException e ) {
-            return ("Error executing command");
+            return e.getMessage();
         }
     }
 

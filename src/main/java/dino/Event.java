@@ -33,7 +33,8 @@ public class Event extends Task {
      */
     @Override
     public String toStoreFormat() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + start + " | " + end;
+        String tagName = this.tag != null ? this.tag : "";
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + start + " | " + end + " | " + tagName;
     }
 
 }

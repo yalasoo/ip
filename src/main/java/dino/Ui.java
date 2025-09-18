@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Returns specific output based on the user command
  */
 public class Ui {
-    private static final String line = "____________________________________________________________";
+    private static final String line = "______________________________________";
     private Scanner scanner;
 
     /**
@@ -180,5 +180,13 @@ public class Ui {
         }
         sb.append(line);
         return sb.toString();
+    }
+
+    public void showTaskTagged(Task task) {
+        System.out.println("Tagged task: " + task);
+    }
+
+    public String taskTaggedMsg(Task task) {
+        return "Tagged task: " + task;
     }
 }

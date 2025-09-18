@@ -29,7 +29,8 @@ public class Todo extends Task {
      */
     @Override
     public String toStoreFormat() {
-        return "T | " + (isDone ? "1" : "0") + " | " + description;
+        String tagName = this.tag != null ? this.tag : "";
+        return "T | " + (isDone ? "1" : "0") + " | " + description + " | " + tagName;
     }
 }
 

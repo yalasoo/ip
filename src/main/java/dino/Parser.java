@@ -12,7 +12,7 @@ public class Parser {
      */
     public static Command parse(String command) throws DukeException {
         assert command != null : "Command cannot be empty";
-        String[] parts = command.trim().split(" ", 2);
+        String[] parts = command.trim().split(" ", 3);
         assert parts.length >= 1 : "Command must have at least one word";
         String commandType = parts[0];
         String commandDetail = parts.length > 1 ? parts[1] : "";
@@ -95,6 +95,18 @@ public class Parser {
                     throw new DukeException("Please provide a valid keyword.");
                 }
                 return new FindCommand(commandDetail);
+            }
+            case "tag": {
+                if (commandDetail.isEmpty()) {
+                    throw new DukeException("Please provide tag information.");
+                }
+                if (parts.length < 3) {
+                    throw new DukeException("Task index or tag is missing.");
+                }
+
+                int index = Integer.parseInt(parts[1]);
+                String tagName = parts[2];
+                return new TagCommand(index, tagName);
             }
             default: throw new DukeException("I'm sorry, but I don't know what that means :-(");
         }

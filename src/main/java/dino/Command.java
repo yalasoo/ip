@@ -135,3 +135,28 @@ class FindCommand extends CommandBase {
         return ui.getFoundResults(searchResults);
     }
 }
+
+class TagCommand extends CommandBase {
+    private int taskIndex;
+    private String tag;
+
+    public TagCommand(int taskIndex, String tag) {
+        this.taskIndex = taskIndex;
+        this.tag = tag;
+    }
+
+    @Override
+    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+        Task task = taskList.get(taskIndex);
+        task.setTag(tag);
+
+        try {
+            storage.saveData(taskList.getAllTasks());
+        } catch (IOException e) {
+            throw new DukeException("Error saving task after tagging.");
+        }
+
+        ui.showTaskTagged(task);
+        return ui.taskTaggedMsg(task);
+    }
+}

@@ -50,13 +50,22 @@ public class Storage {
                 Task temp = null;
                 if (type.equals("T")) {
                     temp = new Todo(description);
+                    if (parts.length > 3 && !parts[3].isEmpty()) {
+                        temp.setTag(parts[3]);
+                    }
                 } else if (type.equals("D")) {
                     String deadline = parts[3];
                     temp = new Deadline(description, deadline);
+                    if (parts.length > 4 && !parts[4].isEmpty()) {
+                        temp.setTag(parts[4]);
+                    }
                 } else if (type.equals("E")) {
                     String start = parts[3];
                     String end = parts[4];
                     temp = new Event(description, start, end);
+                    if (parts.length > 5 && !parts[5].isEmpty()) {
+                        temp.setTag(parts[5]);
+                    }
                 }
                 if (isDone) {
                     temp.markAsDone();

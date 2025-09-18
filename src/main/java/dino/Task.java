@@ -7,11 +7,13 @@ public abstract class Task {
     protected String description;
     protected boolean isDone;
     protected TaskType type;
+    protected String tag;
 
     public Task(String description, TaskType type) {
         this.description = description;
         this.isDone = false;
         this.type = type;
+        this.tag = "";
     }
 
     /**
@@ -48,7 +50,8 @@ public abstract class Task {
      * @return string containing the task status and description
      */
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        String tagString = tag.isEmpty() ? "" : " " + tag;
+        return "[" + getStatusIcon() + "] " + description + tagString;
     }
 
     /**
@@ -57,5 +60,12 @@ public abstract class Task {
      * @return string of the task in the storing format
      */
     public abstract String toStoreFormat();
+
+    public void setTag(String tag) {
+        if (!tag.startsWith("#")) {
+            tag = "#" + tag;
+        }
+        this.tag = tag;
+    }
 }
 

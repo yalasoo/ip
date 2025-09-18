@@ -11,7 +11,9 @@ public class Parser {
      * @throws DukeException if the command is invalid or missing required information
      */
     public static Command parse(String command) throws DukeException {
+        assert command != null : "Command cannot be empty";
         String[] parts = command.trim().split(" ", 2);
+        assert parts.length >= 1 : "Command must have at least one word";
         String commandType = parts[0];
         String commandDetail = parts.length > 1 ? parts[1] : "";
 

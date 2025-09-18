@@ -68,6 +68,10 @@ class MarkCommand extends CommandBase {
 
     @Override
     public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+        if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
+            throw new DukeException("This is not a valid task number.");
+        }
+
         Task task = taskList.get(taskIndex);
         task.markAsDone();
         try {
@@ -92,6 +96,10 @@ class UnmarkCommand extends CommandBase {
 
     @Override
     public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+        if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
+            throw new DukeException("This is not a valid task number.");
+        }
+
         Task task = taskList.get(taskIndex);
         task.markAsUndone();
         try {
@@ -116,6 +124,10 @@ class DeleteCommand extends CommandBase {
 
     @Override
     public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+        if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
+            throw new DukeException("This is not a valid task number.");
+        }
+
         Task task = taskList.get(taskIndex);
         taskList.removeTask(taskIndex);
         try {
@@ -187,6 +199,10 @@ class TagCommand extends CommandBase {
 
     @Override
     public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+        if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
+            throw new DukeException("This is not a valid task number.");
+        }
+
         Task task = taskList.get(taskIndex);
         task.setTag(tag);
 

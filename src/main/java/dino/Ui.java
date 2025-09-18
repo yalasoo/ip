@@ -164,15 +164,7 @@ public class Ui {
      * @param tasks task list containing the searched keyword
      */
     public void showFoundResults(ArrayList<Task> tasks) {
-        System.out.println(line);
-        if (tasks.isEmpty()) {
-            System.out.println("No matching tasks found");
-        }
-        System.out.println("Here are the matching tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i).toString());
-        }
-        System.out.println(line);
+        System.out.println(getFoundResults(tasks));
     }
 
     public String getFoundResults(ArrayList<Task> tasks) {

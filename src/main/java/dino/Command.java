@@ -3,13 +3,29 @@ package dino;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// AI-assisted: Used ChatGPT to draft JavaDoc description for clarity
+/**
+ * Represents a command in the chatbot system.
+ * Commands can be executed with a TaskList, Ui, and Storage.
+ */
 public interface Command {
     String executeCommand(TaskList tasks, Ui ui, Storage storage) throws DukeException;
 
+
+    // AI-assisted: Used ChatGPT to draft JavaDoc for this method
+    /**
+     * Returns whether this command signals the program to exit.
+     *
+     * @return true if command is exit, false otherwise
+     */
     boolean isExit();
 
 }
 
+// AI-assisted: Used ChatGPT to draft JavaDoc description for clarity
+/**
+ * Base class for all commands.
+ */
 abstract class CommandBase implements Command {
     @Override
     public boolean isExit() {
@@ -17,6 +33,9 @@ abstract class CommandBase implements Command {
     }
 }
 
+/**
+ * Command to add a Todo task.
+ */
 class ToDoCommand extends CommandBase {
     private Task task;
 
@@ -37,6 +56,9 @@ class ToDoCommand extends CommandBase {
     }
 }
 
+/**
+ * Command to mark a task as done.
+ */
 class MarkCommand extends CommandBase {
     private int taskIndex;
 
@@ -58,6 +80,9 @@ class MarkCommand extends CommandBase {
     }
 }
 
+/**
+ * Command to mark a task as undone.
+ */
 class UnmarkCommand extends CommandBase {
     private int taskIndex;
 
@@ -79,6 +104,9 @@ class UnmarkCommand extends CommandBase {
     }
 }
 
+/**
+ * Command to delete a task.
+ */
 class DeleteCommand extends CommandBase {
     private int taskIndex;
 
@@ -100,6 +128,9 @@ class DeleteCommand extends CommandBase {
     }
 }
 
+/**
+ * Command to show task list.
+ */
 class ListCommand extends CommandBase {
     @Override
     public String executeCommand(TaskList taskList, Ui ui, Storage storage) {
@@ -108,6 +139,9 @@ class ListCommand extends CommandBase {
     }
 }
 
+/**
+ * Command to exit the chatbot.
+ */
 class ByeCommand extends CommandBase {
     @Override
     public boolean isExit() {
@@ -121,6 +155,9 @@ class ByeCommand extends CommandBase {
     }
 }
 
+/**
+ * Command to find a command.
+ */
 class FindCommand extends CommandBase {
     private String keyword;
 
@@ -136,6 +173,9 @@ class FindCommand extends CommandBase {
     }
 }
 
+/**
+ * Command to find a command.
+ */
 class TagCommand extends CommandBase {
     private int taskIndex;
     private String tag;

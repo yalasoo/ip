@@ -40,35 +40,38 @@ public class Storage {
     public ArrayList<Task> loadData() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner scanner = new Scanner(file);
-        while (scanner.hasNext()) {
+        while (scanner.hasNextLine()) {
             String task = scanner.nextLine();
             try {
-                String[] parts = task.split(" \\| ");
-                String type = parts[0];
-                boolean isDone = parts[1].equals("1");
-                String description = parts[2];
+                String type = task.substring(0, 1);
                 Task temp = null;
                 if (type.equals("T")) {
+                    String[] parts = task.split(" \\| ", 4);
+                    String description = parts[2];
                     temp = new Todo(description);
                     if (parts.length > 3 && !parts[3].isEmpty()) {
                         temp.setTag(parts[3]);
                     }
+                    if (parts[1].equals("1")) { temp.markAsDone(); }
                 } else if (type.equals("D")) {
+                    String[] parts = task.split(" \\| ", 5);
+                    String description = parts[2];
                     String deadline = parts[3];
                     temp = new Deadline(description, deadline);
                     if (parts.length > 4 && !parts[4].isEmpty()) {
                         temp.setTag(parts[4]);
                     }
+                    if (parts[1].equals("1")) { temp.markAsDone(); }
                 } else if (type.equals("E")) {
+                    String[] parts = task.split(" \\| ", 6);
+                    String description = parts[2];
                     String start = parts[3];
                     String end = parts[4];
                     temp = new Event(description, start, end);
                     if (parts.length > 5 && !parts[5].isEmpty()) {
                         temp.setTag(parts[5]);
                     }
-                }
-                if (isDone) {
-                    temp.markAsDone();
+                    if (parts[1].equals("1")) { temp.markAsDone(); }
                 }
                 tasks.add(temp);
 
@@ -104,7 +107,7 @@ public class Storage {
             //test
             Task newTodo = new Todo("homework");
             tasks.add(newTodo);
-            Task newDeadline = new Deadline("lecture", "wed");
+            Task newDeadline = new Deadline("lecture", "2025-11-09 1800");
             tasks.add(newDeadline);
             newDeadline.markAsDone();
             Task newEvent = new Event("tutorial", "4pm", "6pm");

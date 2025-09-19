@@ -1,21 +1,21 @@
 package dino;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a Deadline type task with task description and task deadline.
  */
 public class Deadline extends Task {
-    protected LocalDateTime by;
+    protected LocalDate by;
 
     /**
      * Constructs a new Deadline task with the given description and deadline.
      */
     public Deadline(String description, String by) {
         super(description, TaskType.DEADLINE);
-        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
-        this.by = LocalDateTime.parse(by, inputFormat);
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.by = LocalDate.parse(by, inputFormat);
     }
 
     /**
@@ -25,7 +25,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM dd yyyy HHmm");
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM dd yyyy");
         return "[D]" + super.toString() + " (by: " + by.format(outputFormat) + ")" ;
     }
 

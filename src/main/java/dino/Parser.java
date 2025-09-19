@@ -42,14 +42,14 @@ public class Parser {
                 if (commandDetail.isEmpty()) {
                     throw new DinoException("Check again! Correct format: " + usage("mark"));
                 }
-                int index = parseIndex(commandDetail, "mark");
+                int index = parseIndex(commandDetail, "mark") - 1;
                 return new MarkCommand(index);
             }
             case "unmark": {
                 if (commandDetail.isEmpty()) {
                     throw new DinoException("Check again! Correct format: " + usage("unmark"));
                 }
-                int index = parseIndex(commandDetail, "unmark");
+                int index = parseIndex(commandDetail, "unmark") - 1;
                 return new UnmarkCommand(index);
             }
             case "todo": {
@@ -119,7 +119,7 @@ public class Parser {
                 if (commandDetail.isEmpty()) {
                     throw new DinoException("Please provide a valid task number. Correct format: " + usage("delete"));
                 }
-                int index = parseIndex(commandDetail, "delete");
+                int index = parseIndex(commandDetail, "delete") - 1;
                 return new DeleteCommand(index);
             }
             case "find": {
@@ -137,7 +137,7 @@ public class Parser {
                     throw new DinoException("Task index or tag is missing. Correct format: " + usage("tag"));
                 }
 
-                int index = parseIndex(tagParts[0], "tag");
+                int index = parseIndex(tagParts[0], "tag") - 1;
                 String tagName = tagParts[1];
                 return new TagCommand(index, tagName);
             }
@@ -147,7 +147,7 @@ public class Parser {
 
     private static final Map<String, String> commandUsage = Map.of(
             "todo", "todo <description>",
-            "deadline", "deadline <description> /by <YYYY-MM-DD HHmm>",
+            "deadline", "deadline <description> /by <YYYY-MM-DD>",
             "event", "event <description> /from <start> /to <end>",
             "mark", "mark <task_number>",
             "unmark", "unmark <task_number>",

@@ -15,7 +15,7 @@ public class TaskTest {
 
     @Test
     public void testMarkAsDoneDeadline() {
-        Deadline deadline = new Deadline("Quiz", "2025-09-09 1800");
+        Deadline deadline = new Deadline("Quiz", "2025-09-09");
         assertFalse(deadline.isDone());
         deadline.markAsDone();
         assertTrue(deadline.isDone());

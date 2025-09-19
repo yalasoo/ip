@@ -27,6 +27,11 @@ public class Ui {
         System.out.println(line);
     }
 
+    /**
+     * Returns the welcome message as a string.
+     *
+     * @return welcome message
+     */
     public String getWelcomeMessage() {
         return line + "\nHello! I'm Dino.\nWhat can I do for you?\n" + line;
     }
@@ -38,6 +43,12 @@ public class Ui {
         System.out.println(line);
     }
 
+
+    /**
+     * Returns the bye message as a string.
+     *
+     * @return bye message
+     */
     public String getByeMessage() {
         return line + "\nBye. Hope to see you soon!\n" + line;
     }
@@ -66,6 +77,12 @@ public class Ui {
         System.out.println(line);
     }
 
+    /**
+     * Returns the task list in a string format.
+     *
+     * @param tasks the list of tasks
+     * @return ordered task list
+     */
     public String getTaskList(List<Task> tasks) {
         StringBuilder sb = new StringBuilder();
         sb.append(line).append("\nHere are the tasks in your list:\n");
@@ -188,6 +205,12 @@ public class Ui {
         System.out.println(line);
     }
 
+    /**
+     * Returns a message showing that a task has been tagged.
+     *
+     * @param task the task that has been tagged
+     * @return message showing tagged task information
+     */
     public String taskTaggedMsg(Task task) {
         return line + "\nTagged task: " + task + "\n" + line;
     }

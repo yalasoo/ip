@@ -12,7 +12,7 @@ public class TaskListTest {
         assertEquals(1, taskList.getAllTasks().size());
         assertEquals(todo, taskList.get(0));
 
-        Task deadline = new Deadline("Quiz", "2025-09-09 1800");
+        Task deadline = new Deadline("Quiz", "2025-09-09");
         taskList.addTask(deadline);
         assertEquals(2, taskList.getAllTasks().size());
         assertEquals(deadline, taskList.get(1));

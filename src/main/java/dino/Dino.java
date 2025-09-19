@@ -26,10 +26,20 @@ public class Dino {
         }
     }
 
+    /**
+     * Constructs a Dino application instance with the default storage file.
+     *
+     * @throws IOException if the file cannot be accessed
+     */
     public Dino() throws IOException {
         this(DEFAULT_FILE_PATH);
     }
 
+    /**
+     * Returns the UI instance used by the application.
+     *
+     * @return the Ui object
+     */
     public Ui getUi() {
         return ui;
     }
@@ -65,6 +75,12 @@ public class Dino {
         }
     }
 
+    /**
+     * Checks whether the given input is an exit command.
+     *
+     * @param input the user's input message
+     * @return true if the command is an exit command, false otherwise
+     */
     public boolean isExitCommand(String input) {
         try {
             Command command = Parser.parse(input);

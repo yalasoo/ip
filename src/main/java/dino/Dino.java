@@ -44,7 +44,6 @@ public class Dino {
                 ui.showError(e.getMessage());
             }
         }
-        ui.showBye();
     }
 
     public static void main(String[] args) throws IOException {
@@ -66,5 +65,14 @@ public class Dino {
         String line = "______________________________________";
         return line + "\nHello! I'm Dino.\n"
                 + "What can I do for you?\n" + line;
+    }
+
+    public boolean isExitCommand(String input) {
+        try {
+            Command command = Parser.parse(input);
+            return command.isExit();
+        } catch (DukeException e) {
+            return false;
+        }
     }
 }

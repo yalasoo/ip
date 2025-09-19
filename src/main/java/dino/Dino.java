@@ -30,6 +30,10 @@ public class Dino {
         this(DEFAULT_FILE_PATH);
     }
 
+    public Ui getUi() {
+        return ui;
+    }
+
     /** Starts the Dino application. */
     public void run() {
         ui.showWelcome();
@@ -56,15 +60,9 @@ public class Dino {
     public String getResponse(String input) {
         try {
             return Parser.parse(input).executeCommand(tasks, ui, storage);
-        } catch (DukeException e ) {
-            return e.getMessage();
+        } catch (DukeException e) {
+            return ui.getError(e.getMessage());
         }
-    }
-
-    public String showWelcome() {
-        String line = "______________________________________";
-        return line + "\nHello! I'm Dino.\n"
-                + "What can I do for you?\n" + line;
     }
 
     public boolean isExitCommand(String input) {

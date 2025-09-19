@@ -151,12 +151,12 @@ public class Ui {
      */
     public void showError(String message) {
         System.out.println(line);
-        System.out.println("Error! " + message);
+        System.out.println(message);
         System.out.println(line);
     }
 
     public String getError(String message) {
-        return line + "\nError! " + message + "\n" + line;
+        return line + "\n" + message + "\n" + line;
     }
 
     /** Displays the result of searching the given keyword.

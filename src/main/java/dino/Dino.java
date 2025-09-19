@@ -44,7 +44,7 @@ public class Dino {
                 Command command = Parser.parse(input);
                 command.executeCommand(tasks, ui, storage);
                 isExit = command.isExit();
-            } catch (DukeException e) {
+            } catch (DinoException e) {
                 ui.showError(e.getMessage());
             }
         }
@@ -60,7 +60,7 @@ public class Dino {
     public String getResponse(String input) {
         try {
             return Parser.parse(input).executeCommand(tasks, ui, storage);
-        } catch (DukeException e) {
+        } catch (DinoException e) {
             return ui.getError(e.getMessage());
         }
     }
@@ -69,7 +69,7 @@ public class Dino {
         try {
             Command command = Parser.parse(input);
             return command.isExit();
-        } catch (DukeException e) {
+        } catch (DinoException e) {
             return false;
         }
     }

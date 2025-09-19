@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Commands can be executed with a TaskList, Ui, and Storage.
  */
 public interface Command {
-    String executeCommand(TaskList tasks, Ui ui, Storage storage) throws DukeException;
+    String executeCommand(TaskList tasks, Ui ui, Storage storage) throws DinoException;
 
 
     // AI-assisted: Used ChatGPT to draft JavaDoc for this method
@@ -44,12 +44,12 @@ class ToDoCommand extends CommandBase {
     }
 
     @Override
-    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DinoException {
         taskList.addTask(task);
         try {
             storage.saveData(taskList.getAllTasks());
         } catch (IOException e) {
-            throw new DukeException("Error encountered when saving tasks.");
+            throw new DinoException("Error encountered when saving tasks.");
         }
         ui.showTaskAdded(task, taskList.getTaskListAsArray());
         return ui.getTaskAdded(task, taskList.getTaskListAsArray());
@@ -67,9 +67,9 @@ class MarkCommand extends CommandBase {
     }
 
     @Override
-    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DinoException {
         if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
-            throw new DukeException("This is not a valid task number.");
+            throw new DinoException("This is not a valid task number.");
         }
 
         Task task = taskList.get(taskIndex);
@@ -77,7 +77,7 @@ class MarkCommand extends CommandBase {
         try {
             storage.saveData(taskList.getAllTasks());
         } catch (IOException e) {
-            throw new DukeException("Error encountered when saving tasks.");
+            throw new DinoException("Error encountered when saving tasks.");
         }
         ui.showTaskMarked(task);
         return ui.getTaskMarked(task);
@@ -95,9 +95,9 @@ class UnmarkCommand extends CommandBase {
     }
 
     @Override
-    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DinoException {
         if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
-            throw new DukeException("This is not a valid task number.");
+            throw new DinoException("This is not a valid task number.");
         }
 
         Task task = taskList.get(taskIndex);
@@ -105,7 +105,7 @@ class UnmarkCommand extends CommandBase {
         try {
             storage.saveData(taskList.getAllTasks());
         } catch (IOException e) {
-            throw new DukeException("Error encountered when saving tasks.");
+            throw new DinoException("Error encountered when saving tasks.");
         }
         ui.showTaskUnmarked(task);
         return ui.getTaskUnmarked(task);
@@ -123,9 +123,9 @@ class DeleteCommand extends CommandBase {
     }
 
     @Override
-    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DinoException {
         if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
-            throw new DukeException("This is not a valid task number.");
+            throw new DinoException("This is not a valid task number.");
         }
 
         Task task = taskList.get(taskIndex);
@@ -133,7 +133,7 @@ class DeleteCommand extends CommandBase {
         try {
             storage.saveData(taskList.getAllTasks());
         } catch (IOException e) {
-            throw new DukeException("Error encountered when saving tasks.");
+            throw new DinoException("Error encountered when saving tasks.");
         }
         ui.showTaskDeleted(task, taskList.getTaskListAsArray());
         return ui.getTaskDeleted(task, taskList.getTaskListAsArray());
@@ -178,7 +178,7 @@ class FindCommand extends CommandBase {
     }
 
     @Override
-    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String executeCommand(TaskList taskList, Ui ui, Storage storage) {
         ArrayList<Task> searchResults = taskList.findTasks(keyword);
         ui.showFoundResults(searchResults);
         return ui.getFoundResults(searchResults);
@@ -198,9 +198,9 @@ class TagCommand extends CommandBase {
     }
 
     @Override
-    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DukeException {
+    public String executeCommand(TaskList taskList, Ui ui, Storage storage) throws DinoException {
         if (taskIndex < 0 || taskIndex >= taskList.getAllTasks().size()) {
-            throw new DukeException("This is not a valid task number.");
+            throw new DinoException("This is not a valid task number.");
         }
 
         Task task = taskList.get(taskIndex);
@@ -209,7 +209,7 @@ class TagCommand extends CommandBase {
         try {
             storage.saveData(taskList.getAllTasks());
         } catch (IOException e) {
-            throw new DukeException("Error saving task after tagging.");
+            throw new DinoException("Error saving task after tagging.");
         }
 
         ui.showTaskTagged(task);

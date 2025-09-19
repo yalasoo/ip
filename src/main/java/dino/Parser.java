@@ -1,9 +1,19 @@
 package dino;
 
+import java.util.Map;
+
 /**
  * Parses the user input command into structured components to be processed by the application.
  */
 public class Parser {
+
+    private static int parseIndex(String str, String command) throws DinoException {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            throw new DinoException("Task number must be an integer. Correct format: " + usage(command));
+        }
+    }
 
     /** Parses different user command string into its corresponding format of array of components.
      *
@@ -19,96 +29,133 @@ public class Parser {
 
         switch (commandType) {
             case "bye":
+                if (parts.length > 1) {
+                    throw new DinoException("Bye command does not take any arguments.");
+                }
                 return new ByeCommand();
             case "list":
+                if (parts.length > 1) {
+                    throw new DinoException("List command does not take any arguments.");
+                }
                 return new ListCommand();
             case "mark": {
                 if (commandDetail.isEmpty()) {
-                    throw new DinoException("Choose a valid task number to mark a task.");
+                    throw new DinoException("Check again! Correct format: " + usage("mark"));
                 }
-                return new MarkCommand(Integer.parseInt(commandDetail));
+                int index = parseIndex(commandDetail, "mark");
+                return new MarkCommand(index);
             }
             case "unmark": {
                 if (commandDetail.isEmpty()) {
-                    throw new DinoException("Choose a valid task number to unmark a task.");
+                    throw new DinoException("Check again! Correct format: " + usage("unmark"));
                 }
-                return new UnmarkCommand(Integer.parseInt(commandDetail));
+                int index = parseIndex(commandDetail, "unmark");
+                return new UnmarkCommand(index);
             }
             case "todo": {
                 if (commandDetail.isEmpty()) {
-                    throw new DinoException("The description of a todo cannot be empty.");
+                    throw new DinoException("The description of a todo cannot be empty. " +
+                            "Correct format: " + usage("todo"));
                 }
                 return new ToDoCommand(new Todo(commandDetail));
             }
             case "deadline": {
                 if (commandDetail.isEmpty()) {
-                    throw new DinoException("The details of a deadline cannot be empty.");
+                    throw new DinoException("The details of a deadline cannot be empty. " +
+                            "Correct format: " + usage("deadline"));
                 }
                 if (!commandDetail.contains("/by")) {
-                    throw new DinoException("Please use the correct deadline format.");
+                    throw new DinoException("Please use the correct deadline format: " + usage("deadline"));
                 }
                 String[] taskDetail = commandDetail.split("/by");
                 String description = taskDetail[0].trim();
                 if (description.isEmpty()) {
-                    throw new DinoException("The description of a deadline cannot be empty.");
+                    throw new DinoException("The description of a deadline cannot be empty. " +
+                            "Correct format: " + usage("deadline"));
                 }
                 String date = taskDetail[1].trim();
                 if (date.isEmpty()) {
-                    throw new DinoException("Deadline needs a date!");
+                    throw new DinoException("Deadline needs a date! " +
+                            "Correct format: " + usage("deadline"));
                 }
                 return new ToDoCommand(new Deadline(description, date));
             }
             case "event": {
                 if (commandDetail.isEmpty()) {
-                    throw new DinoException("The details of a event cannot be empty.");
+                    throw new DinoException("The details of a event cannot be empty. " +
+                            "Correct format: " + usage("event"));
                 }
                 if (!commandDetail.contains("/from") || !commandDetail.contains("/to")) {
-                    throw new DinoException("Please use the correct format to record down event.");
+                    throw new DinoException("Please use the correct format to record down event: " + usage("event"));
                 }
                 String[] taskDetail = commandDetail.split("/from");
                 if (taskDetail.length != 2) {
-                    throw new DinoException("Missing description or time!");
+                    throw new DinoException("Missing description or time! " +
+                            "Correct format: " + usage("event"));
                 }
                 String description = taskDetail[0].trim();
                 if (description.isEmpty()) {
-                    throw new DinoException("The description of an event cannot be empty.");
+                    throw new DinoException("The description of an event cannot be empty. " +
+                            "Correct format: " + usage("event"));
                 }
                 String[] duration = taskDetail[1].split("/to");
                 if (duration.length != 2) {
-                    throw new DinoException("Missing start or end time!");
+                    throw new DinoException("Missing start or end time! " +
+                            "Correct format: " + usage("event"));
                 }
                 String start = duration[0].trim();
                 if (start.isEmpty()) {
-                    throw new DinoException("Event needs a start time!");
+                    throw new DinoException("Event needs a start time! " +
+                            "Correct format: " + usage("event"));
                 }
                 String end = duration[1].trim();
                 if (end.isEmpty()) {
-                    throw new DinoException("Event needs an end time!");
+                    throw new DinoException("Event needs an end time! " +
+                            "Correct format: " + usage("event"));
                 }
                 return new ToDoCommand(new Event(description, start, end));
             }
             case "delete": {
-                return new DeleteCommand(Integer.parseInt(commandDetail));
+                if (commandDetail.isEmpty()) {
+                    throw new DinoException("Please provide a valid task number. Correct format: " + usage("delete"));
+                }
+                int index = parseIndex(commandDetail, "delete");
+                return new DeleteCommand(index);
             }
             case "find": {
                 if (commandDetail.isEmpty()) {
-                    throw new DinoException("Please provide a valid keyword.");
+                    throw new DinoException("Please provide a valid keyword. Correct format: " + usage("find"));
                 }
                 return new FindCommand(commandDetail);
             }
             case "tag": {
                 if (commandDetail.isEmpty()) {
-                    throw new DinoException("Please provide tag information.");
+                    throw new DinoException("Please provide tag information. Correct format: " + usage("tag"));
                 }
                 if (parts.length < 3) {
-                    throw new DinoException("Task index or tag is missing.");
+                    throw new DinoException("Task index or tag is missing. Correct format: " + usage("tag"));
                 }
 
-                int index = Integer.parseInt(parts[1]);
+                int index = parseIndex(parts[1], "tag");
                 String tagName = parts[2];
                 return new TagCommand(index, tagName);
             }
             default: throw new DinoException("I'm sorry, but I don't know what that means :-(");
         }
+    }
+
+    private static final Map<String, String> commandUsage = Map.of(
+            "todo", "todo <description>",
+            "deadline", "deadline <description> /by <YYYY-MM-DD>",
+            "event", "event <description> /from <start> /to <end>",
+            "mark", "mark <task_number>",
+            "unmark", "unmark <task_number>",
+            "delete", "delete <task_number>",
+            "tag", "tag <task_index> <tag_name>",
+            "find", "find <keyword>"
+    );
+
+    private static String usage(String command) {
+        return commandUsage.getOrDefault(command, "");
     }
 }

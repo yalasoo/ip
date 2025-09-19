@@ -183,10 +183,12 @@ public class Ui {
     }
 
     public void showTaskTagged(Task task) {
+        System.out.println(line);
         System.out.println("Tagged task: " + task);
+        System.out.println(line);
     }
 
     public String taskTaggedMsg(Task task) {
-        return "Tagged task: " + task;
+        return line + "\nTagged task: " + task + "\n" + line;
     }
 }

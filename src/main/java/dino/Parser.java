@@ -22,7 +22,7 @@ public class Parser {
      */
     public static Command parse(String command) throws DinoException {
         assert command != null : "Command cannot be empty";
-        String[] parts = command.trim().split(" ", 3);
+        String[] parts = command.trim().split("\\s+", 2);
         assert parts.length >= 1 : "Command must have at least one word";
         String commandType = parts[0];
         String commandDetail = parts.length > 1 ? parts[1] : "";
@@ -132,12 +132,13 @@ public class Parser {
                 if (commandDetail.isEmpty()) {
                     throw new DinoException("Please provide tag information. Correct format: " + usage("tag"));
                 }
-                if (parts.length < 3) {
+                String[] tagParts = commandDetail.trim().split("\\s+", 2);
+                if (tagParts.length < 2) {
                     throw new DinoException("Task index or tag is missing. Correct format: " + usage("tag"));
                 }
 
-                int index = parseIndex(parts[1], "tag");
-                String tagName = parts[2];
+                int index = parseIndex(tagParts[0], "tag");
+                String tagName = tagParts[1];
                 return new TagCommand(index, tagName);
             }
             default: throw new DinoException("I'm sorry, but I don't know what that means :-(");
@@ -146,7 +147,7 @@ public class Parser {
 
     private static final Map<String, String> commandUsage = Map.of(
             "todo", "todo <description>",
-            "deadline", "deadline <description> /by <YYYY-MM-DD>",
+            "deadline", "deadline <description> /by <YYYY-MM-DD HHmm>",
             "event", "event <description> /from <start> /to <end>",
             "mark", "mark <task_number>",
             "unmark", "unmark <task_number>",

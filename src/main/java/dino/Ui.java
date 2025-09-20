@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Returns specific output based on the user command
  */
 public class Ui {
-    private static final String line = "______________________________________";
+    private static final String LINE = "______________________________________";
     private Scanner scanner;
 
     /**
@@ -21,10 +21,10 @@ public class Ui {
 
     /** Displays the welcome message to the user. */
     public void showWelcome() {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("Hello! I'm Dino.");
         System.out.println("What can I do for you?");
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     /**
@@ -33,14 +33,14 @@ public class Ui {
      * @return welcome message
      */
     public String getWelcomeMessage() {
-        return line + "\nHello! I'm Dino.\nWhat can I do for you?\n" + line;
+        return LINE + "\nHello! I'm Dino.\nWhat can I do for you?\n" + LINE;
     }
 
     /** Displays the goodbye message to the user. */
     public void showBye() {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("Bye. Hope to see you soon!");
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Ui {
      * @return bye message
      */
     public String getByeMessage() {
-        return line + "\nBye. Hope to see you soon!\n" + line;
+        return LINE + "\nBye. Hope to see you soon!\n" + LINE;
     }
 
     /**
@@ -67,13 +67,13 @@ public class Ui {
      * @param tasks the list of tasks
      */
     public void showTaskList(List<Task> tasks) {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
             System.out.println((i + 1) + ". " + task.toString());
         }
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     /**
@@ -84,11 +84,11 @@ public class Ui {
      */
     public String getTaskList(List<Task> tasks) {
         StringBuilder sb = new StringBuilder();
-        sb.append(line).append("\nHere are the tasks in your list:\n");
+        sb.append(LINE).append("\nHere are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
             sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
         }
-        sb.append(line);
+        sb.append(LINE);
         return sb.toString();
     }
 
@@ -98,13 +98,13 @@ public class Ui {
      * @param task the task to be marked as done
      */
     public void showTaskMarked(Task task) {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("Nice! I've marked this task as done:\n  " + task.toString());
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     public String getTaskMarked(Task task) {
-        return line + "\nNice! I've marked this task as done:\n  " + task + "\n" + line;
+        return LINE + "\nNice! I've marked this task as done:\n  " + task + "\n" + LINE;
     }
 
     /**
@@ -113,13 +113,13 @@ public class Ui {
      * @param task the task to be marked as undone
      */
     public void showTaskUnmarked(Task task) {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("OK, I've marked this task as not done yet:\n  " + task.toString());
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     public String getTaskUnmarked(Task task) {
-        return line + "\nOK, I've marked this task as not done yet:\n  " + task + "\n" + line;
+        return LINE + "\nOK, I've marked this task as not done yet:\n  " + task + "\n" + LINE;
     }
 
     /**
@@ -129,16 +129,16 @@ public class Ui {
      * @param tasks the current list of tasks
      */
     public void showTaskAdded(Task task, List<Task> tasks) {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("Got it. I've added this task:" +
                 "\n  " + task +
                 "\nNow you have " + tasks.size() + " tasks in the list.");
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     public String getTaskAdded(Task task, List<Task> tasks) {
-        return line + "\nGot it. I've added this task:\n  " + task +
-                "\nNow you have " + tasks.size() + " tasks in the list.\n" + line;
+        return LINE + "\nGot it. I've added this task:\n  " + task +
+                "\nNow you have " + tasks.size() + " tasks in the list.\n" + LINE;
     }
 
     /**
@@ -148,16 +148,16 @@ public class Ui {
      * @param tasks the current list of tasks
      */
     public void showTaskDeleted(Task task, List<Task> tasks) {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("Noted. I've removed this task:" +
                 "\n  " + task +
                 "\nNow you have " + tasks.size() + " tasks in the list.");
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     public String getTaskDeleted(Task task, List<Task> tasks) {
-        return line + "\nNoted. I've removed this task:\n  " + task +
-                "\nNow you have " + tasks.size() + " tasks in the list.\n" + line;
+        return LINE + "\nNoted. I've removed this task:\n  " + task +
+                "\nNow you have " + tasks.size() + " tasks in the list.\n" + LINE;
     }
 
     /**
@@ -166,13 +166,13 @@ public class Ui {
      * @param message the error details
      */
     public void showError(String message) {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println(message);
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     public String getError(String message) {
-        return line + "\n" + message + "\n" + line;
+        return LINE + "\n" + message + "\n" + LINE;
     }
 
     /** Displays the result of searching the given keyword.
@@ -185,7 +185,7 @@ public class Ui {
 
     public String getFoundResults(ArrayList<Task> tasks) {
         StringBuilder sb = new StringBuilder();
-        sb.append(line).append("\n");
+        sb.append(LINE).append("\n");
         if (tasks.isEmpty()) {
             sb.append("No matching tasks found\n");
         } else {
@@ -194,14 +194,14 @@ public class Ui {
                 sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
             }
         }
-        sb.append(line);
+        sb.append(LINE);
         return sb.toString();
     }
 
     public void showTaskTagged(Task task) {
-        System.out.println(line);
+        System.out.println(LINE);
         System.out.println("Tagged task: " + task);
-        System.out.println(line);
+        System.out.println(LINE);
     }
 
     /**
@@ -211,6 +211,6 @@ public class Ui {
      * @return message showing tagged task information
      */
     public String taskTaggedMsg(Task task) {
-        return line + "\nTagged task: " + task + "\n" + line;
+        return LINE + "\nTagged task: " + task + "\n" + LINE;
     }
 }

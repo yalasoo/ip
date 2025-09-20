@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 /**
  * Represents the user interface for the application.
- * Returns specific output based on the user command
+ * Returns specific output based on the user command.
  */
 public class Ui {
     private static final String LINE = "______________________________________";
@@ -198,6 +198,7 @@ public class Ui {
         return sb.toString();
     }
 
+    /** Displays a task that has been tagged with additional information. */
     public void showTaskTagged(Task task) {
         System.out.println(LINE);
         System.out.println("Tagged task: " + task);

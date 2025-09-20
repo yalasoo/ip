@@ -43,7 +43,6 @@ public class Ui {
         System.out.println(line);
     }
 
-
     /**
      * Returns the bye message as a string.
      *

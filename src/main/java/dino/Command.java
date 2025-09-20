@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public interface Command {
     String executeCommand(TaskList tasks, Ui ui, Storage storage) throws DinoException;
 
-
     // AI-assisted: Used ChatGPT to draft JavaDoc for this method
     /**
      * Returns whether this command signals the program to exit.
@@ -19,7 +18,6 @@ public interface Command {
      * @return true if command is exit, false otherwise
      */
     boolean isExit();
-
 }
 
 // AI-assisted: Used ChatGPT to draft JavaDoc description for clarity

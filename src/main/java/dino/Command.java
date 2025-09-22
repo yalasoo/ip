@@ -32,12 +32,12 @@ abstract class CommandBase implements Command {
 }
 
 /**
- * Command to add a Todo task.
+ * Command to add a task.
  */
-class ToDoCommand extends CommandBase {
+class AddCommand extends CommandBase {
     private Task task;
 
-    public ToDoCommand(Task task) {
+    public AddCommand(Task task) {
         this.task = task;
     }
 

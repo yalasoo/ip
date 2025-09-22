@@ -43,6 +43,7 @@ public class Parser {
         }
     }
 
+    /** Parses the "bye" command */
     private static Command parseBye(String[] parts) throws DinoException {
         if (parts.length > 1) {
             throw new DinoException("Bye command does not take any arguments.");
@@ -50,12 +51,15 @@ public class Parser {
         return new ByeCommand();
     }
 
+    /** Parses the "list" command */
     private static Command parseList(String[] parts) throws DinoException {
         if (parts.length > 1) {
             throw new DinoException("List command does not take any arguments.");
         }
         return new ListCommand();
     }
+
+    /** Parses the "mark" command */
     private static Command parseMark(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("Check again! Correct format: " + usage("mark"));
@@ -64,6 +68,7 @@ public class Parser {
         return new MarkCommand(index);
     }
 
+    /** Parses the "unmark" command */
     private static Command parseUnmark(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("Check again! Correct format: " + usage("unmark"));
@@ -72,6 +77,7 @@ public class Parser {
         return new UnmarkCommand(index);
     }
 
+    /** Parses the "todo" command */
     private static Command parseTodo(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("The description of a todo cannot be empty. " +
@@ -80,6 +86,7 @@ public class Parser {
         return new AddCommand(new Todo(commandDetail));
     }
 
+    /** Parses the "deadline" command */
     private static Command parseDeadline(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("The details of a deadline cannot be empty. " +
@@ -106,6 +113,7 @@ public class Parser {
         }
     }
 
+    /** Parses the "event" command */
     private static Command parseEvent(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("The details of a event cannot be empty. " +
@@ -142,6 +150,7 @@ public class Parser {
         return new AddCommand(new Event(description, start, end));
     }
 
+    /** Parses the "delete" command */
     private static Command parseDelete(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("Please provide a valid task number. Correct format: " + usage("delete"));
@@ -150,6 +159,7 @@ public class Parser {
         return new DeleteCommand(index);
     }
 
+    /** Parses the "find" command */
     private static Command parseFind(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("Please provide a valid keyword. Correct format: " + usage("find"));
@@ -157,6 +167,7 @@ public class Parser {
         return new FindCommand(commandDetail);
     }
 
+    /** Parses the "tag" command */
     private static Command parseTag(String commandDetail) throws DinoException {
         if (commandDetail.isEmpty()) {
             throw new DinoException("Please provide tag information. Correct format: " + usage("tag"));
@@ -171,7 +182,7 @@ public class Parser {
         return new TagCommand(index, tagName);
     }
 
-
+    /** Maps different commands to their required input formats */
     private static final Map<String, String> commandUsage = Map.of(
             "todo", "todo <description>",
             "deadline", "deadline <description> /by <YYYY-MM-DD>",
@@ -183,6 +194,7 @@ public class Parser {
             "find", "find <keyword>"
     );
 
+    /** Returns the input format string for a given command. */
     private static String usage(String command) {
         return commandUsage.getOrDefault(command, "");
     }

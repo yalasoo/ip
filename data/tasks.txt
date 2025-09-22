@@ -1,5 +1,5 @@
-T | 0 | hello hello | #work work
-T | 0 | do homework | 
+T | 0 | hello hello | #work
+T | 1 | do homework | 
 E | 1 | sleep | 9pm | 9am | #sleepy
 D | 0 | finish quiz | 2020-12-09 | 
 D | 0 | submit report | 2025-09-30 | 
